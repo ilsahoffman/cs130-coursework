@@ -1,21 +1,82 @@
-/* You're welcome to change any of this! */
-* {
-    box-sizing: border-box;
-}
-
 body {
-    margin: 0px;
-    font-family: Arial, sans-serif;
-}
-header, section {
-    padding: 20px;
-}
-p, li {
-    line-height: 1.5em;
+    width: 98%;
+    background-color: #e3dfd5;
+    background-image: url("https://www.transparenttextures.com/patterns/axiom-pattern.png");
 }
 
-#inspiration {
-    background-color: #F0F0F0;
-    padding-top: 40px;
-    padding-bottom: 40px;
+.container {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 0.1fr 0.1fr 2fr 2fr 2fr;
+    grid-template-areas:
+        "a a b"
+        "a a c"
+        "d g g"
+        "e g g"
+        "f g g";
+    padding: 10px;
+    grid-row-gap: 20px;
+    grid-column-gap: 20px;
+}
+
+header, article, main {
+    border: 1.5px solid black;
+}
+
+header {
+    display: flex;
+    align-items: center;
+    padding-left: 20px;
+
+}
+
+article {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+ }
+
+.menu1 {
+    grid-area: a;
+}
+.menu2 {
+    grid-area: b;
+}
+.menu3 {
+    grid-area: c;
+}
+.card1 {
+    grid-area: d;
+}
+.card2 {
+    grid-area: e;
+}
+.card3 {
+    grid-area: f;
+}
+
+main {
+    grid-area: g;
+}
+
+a {
+    text-decoration: none;
+    color: black;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+h1 a:hover {
+    text-decoration: none;
+}
+
+h1, h2, a {
+    font-family: Palatino, URW Palladio L, serif;
+    font-weight: normal;
+}
+
+li {
+    line-height: 30px;
 }
