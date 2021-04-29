@@ -42,12 +42,48 @@ nav h1 {
     margin: 0px;
     line-height: 40px;
 }
-
-
-img {
-    height: 300px;
-}
-
 .cards {
     padding-top: 100px;
+    display: flex;
+    flex-wrap: wrap;
+}
+.card {
+    width: 25%;
+    padding:10px;
+}
+.card > div {
+    border: solid 1px #CCC;
+    padding: 10px;
+    border-radius: 5px;
+}
+.card > div:hover {
+    border: solid 1px black;
+}
+.image-div {
+    background-size: cover;
+    width: 100%;
+    height: 250px;
+}
+.caption {
+    margin-top: 15px;
+    margin-bottom: 30px;
+    color: #999;
+    display: flex;
+    justify-content: center;
+}
+
+@media screen and (max-width: 1200px) {
+    .card {
+        width: 33.3%;
+    }
+}
+@media screen and (max-width: 900px) {
+    .card {
+        width: 50%;
+    }
+}
+@media screen and (max-width: 700px) {
+    .card {
+        width: 100%;
+    }
 }
