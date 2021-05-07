@@ -144,7 +144,7 @@ nav .selected {
 /*************************/
 #featured-content {
     display: inline-grid;
-    grid-template-columns: auto auto auto auto auto;
+    grid-template-columns: auto auto auto auto;
     grid-column-gap: 40px;
     text-align: center;
     grid-row-gap: 40px;
