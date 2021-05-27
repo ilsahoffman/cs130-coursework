@@ -16,18 +16,75 @@ const search = (ev) => {
     }
 }
 
+const playTrack = (ev) => {
+    // console.log(ev.currentTarget);
+    const elem = ev.currentTarget;
+    // preview url (the mp3) has been stashed in the "data-preview-track" attribute
+    // we need to get that attribute out
+    // const previewURL = elem.dataset.previewTrack;
+    const previewURL = elem.getAttribute('data-preview-track');
+    console.log(previewURL);
+    if (previewURL) {
+        audioPlayer.setAudioFile(previewURL);
+        audioPlayer.play();
+    } else {
+        console.log('There is no preview for this track.')
+    }
+    document.querySelector('footer .track-item').innerHTML = elem.innerHTML;
+};
+
 const getTracks = (term) => {
-    console.log(`
-        get tracks from spotify based on the search term
-        "${term}" and load them into the #tracks section 
-        of the DOM...`);
+    let url = `https://www.apitutor.org/spotify/simple/v1/search?type=track&q=${term}&limit=5`;
+    fetch(url)
+        .then(response => response.json())
+        .then(data => {
+            for (track of data) {
+                const template = `
+                    <section class="track-item">
+                        <img src="${track.album.image_url}">
+                        <i class="fas play-track fa-play" aria-hidden="true"></i>
+                        <div class="label">
+                            <h3>${track.name}</h3>
+                            <p>
+                                ${track.artist.name}
+                            </p>
+                        </div>
+                    </section>`;
+                document.querySelector('#tracks').innerHTML += template;
+                console.log(track);
+            }
+        })
 };
 
 const getAlbums = (term) => {
-    console.log(`
-        get albums from spotify based on the search term
-        "${term}" and load them into the #albums section 
-        of the DOM...`);
+    const elem = document.querySelector('#albums');
+    elem.innerHTML = "";
+    var url = baseURL + '?type=album&q=' + term;
+    fetch(url)
+        .then(response => response.json())
+        .then((data) => {
+            for (firstAlbums of data) {
+                elem.innerHTML += getAlbumsHTML(firstAlbums);
+            }
+        });
+};
+
+const getAlbumsHTML = (data) => {
+    if (!data.image_url) {
+        data.image_url = 'https://www.pngkit.com/png/full/943-9439413_blue-butterfly-free-png-image-dark-blue-to.png';
+    }
+    return `
+        <section class="album-card" id="${data.id}">
+            <div>
+                <img src=${data.image_url}>
+                <h3>${data.name}</h3>
+                <div class="footer">
+                    <a href="${data.spotify_url}" target="_blank">
+                        view on spotify
+                    </a>
+                </div>
+            </div>
+        </section>`;
 };
 
 const getArtist = (term) => {
@@ -44,8 +101,23 @@ const getArtist = (term) => {
         });
 };
 
-
-
+const getArtistHTML = (data) => {
+    if (!data.image_url) {
+        data.image_url = 'https://www.pngkit.com/png/full/943-9439413_blue-butterfly-free-png-image-dark-blue-to.png';
+    }
+    return `
+        <section class="artist-card" id="${data.id}">
+            <div>
+                <img src="${data.image_url}">
+                <h3>${data.name}</h3>
+                <div class="footer">
+                    <a href="${data.spotify_url}" target="_blank">
+                        view on spotify
+                    </a>
+                </div>
+            </div>
+        </section>`;
+};
 
 document.querySelector('#search').onkeyup = (ev) => {
     // Number 13 is the "Enter" key on the keyboard
@@ -56,19 +128,3 @@ document.querySelector('#search').onkeyup = (ev) => {
     }
 };
 
-const getArtistHTML = (data) => {
-    if (!data.image_url) {
-        data.image_url = 'https://www.pngkit.com/png/full/943-9439413_blue-butterfly-free-png-image-dark-blue-to.png';
-    }
-    return  `<section class="artist-card" id="${data.id}">
-            <div>
-                <img src="${data.image_url}">
-                <h3>${data.name}</h3>
-                <div class="footer">
-                    <a href="${data.spotify_url}" target="_blank">
-                        view on spotify
-                    </a>
-                </div>
-            </div>
-            </section>`;
-};
